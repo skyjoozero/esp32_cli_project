@@ -12,8 +12,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  printUart1Second();
+  // printUart1Second();
   // sendUartString(helloSring);
-  // uart_write_bytes(UART_NUM_0, (char*)helloSring, strlen(helloSring));
+  uart_write_bytes(UART_NUM_0, (char*)helloSring, strlen(helloSring));
   delay(1000);
 }
