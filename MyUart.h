@@ -11,6 +11,6 @@ void unSetUart();
 void sendUartString(char *string);
 void sendUartNewLine();
 char *receiveUartCharData();
-char *receiveUartStringData();
+char *receiveUartStringData(); //return strig before input enter
 
 #endif

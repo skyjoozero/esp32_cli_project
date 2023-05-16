@@ -14,15 +14,11 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  stringData = receiveUartCharData();
-  // sendUartString(stringData);
+  sendUartString("input string: ");
+  stringData = receiveUartStringData();
   if (stringData != NULL) {
-    sendUartNewLine();
     sendUartString("you input: ");
     sendUartString(stringData);
     sendUartNewLine();
-    // uart_write_bytes(UART_NUM_0,(const char*) helloSring, strlen(helloSring));
   }
-  // sendUartString(stringData);
-  // delay(1000);
 }

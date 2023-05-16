@@ -1,9 +1,9 @@
 #include "MyUart.h"
 
 uint8_t receivedData[128];
-uint8_t receivedString[128];
-int dataIndex = 0;
 int length = 0;
+uint8_t returnString[128];
+int stringIndex = 0;
 uint32_t baudrate = 115200;
 
 void setUart() {
@@ -32,10 +32,11 @@ void sendUartString(char *string) {
 }
 
 void sendUartNewLine() {
-  uart_write_bytes(UART_NUM_0, "\r", 1);
+  uart_write_bytes(UART_NUM_0, "\r\n", 1);
 }
 
 char *receiveUartCharData() {
+  
   ESP_ERROR_CHECK(uart_get_buffered_data_len(UART_NUM_0, (size_t*)&length)); 
   if(length > 0) {
     length = uart_read_bytes(UART_NUM_0, receivedData, length, 100);
@@ -47,13 +48,22 @@ char *receiveUartCharData() {
 }
 
 char *receiveUartStringData() {
-  uint8_t returnString[128];
-  int index = 0;
-  char *tempChar = receiveUartCharData();
-  if(strcmp(tempChar, "\n") == 0) {
-    return returnString;
-  } else {
-    returnString[index] = *tempChar;
-    index++;
+  stringIndex = 0;
+  
+  while(true) {
+    char *tempChar = receiveUartCharData();
+    if(tempChar != NULL) {
+      if(strcmp(tempChar, "\r\n") == 0) {
+        break;
+      } else {
+        int i;
+        for (i = 0; i < strlen(tempChar) + 1; i++) {
+          returnString[stringIndex + i] = tempChar[i];
+        }
+        stringIndex++;
+      }
+    }
   }
+  returnString[stringIndex] = '\0';
+  return returnString;
 }
