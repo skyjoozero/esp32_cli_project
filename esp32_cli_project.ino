@@ -6,6 +6,7 @@ char sendString[64];
 char *stringData;
 int delayed = 1;
 
+//todo: 영어 입력만 받도록 하기
 
 void setup() {
   // put your setup code here, to run once:
@@ -14,11 +15,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  sendUartString("input string: ");
+  sendUartString("esp32>>");
   stringData = receiveUartStringData();
-  if (stringData != NULL) {
-    sendUartString("you input: ");
-    sendUartString(stringData);
-    sendUartNewLine();
-  }
+  char **commands = returnCommandArray(stringData);
+  excuteCLI(commands);
 }

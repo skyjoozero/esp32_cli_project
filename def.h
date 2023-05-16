@@ -11,6 +11,7 @@ extern "C" {
 
 
 #include "MyUart.h"
+#include "MyCLI.h"
 // #include "MyTimer.h"
 
 
