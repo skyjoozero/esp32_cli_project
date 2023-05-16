@@ -2,7 +2,9 @@
 
 uint64_t nowTime = 0;
 char *helloSring = "hello\r";
+char sendString[64];
 char *stringData;
+int delayed = 1;
 
 
 void setup() {
@@ -12,16 +14,15 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  // stringData = receiveUartData();
-  // if (stringData != NULL) {
-  //   sendUartString(stringData);
-  //   uart_write_bytes(UART_NUM_0,(const char*) helloSring, strlen(helloSring));
-  // }
-  const    uart_port_t uart_num = UART_NUM_0; 
-  uint8_t    data[128];
-  int    length = 0;
-  ESP_ERROR_CHECK(uart_get_buffered_data_len(uart_num, (size_t*)&length)); 
-  length = uart_read_bytes(uart_num, data, length, 1000);
-  uart_write_bytes(UART_NUM_0, (const char*)helloSring, strlen(helloSring));
-  delay(1000);
+  stringData = receiveUartCharData();
+  // sendUartString(stringData);
+  if (stringData != NULL) {
+    sendUartNewLine();
+    sendUartString("you input: ");
+    sendUartString(stringData);
+    sendUartNewLine();
+    // uart_write_bytes(UART_NUM_0,(const char*) helloSring, strlen(helloSring));
+  }
+  // sendUartString(stringData);
+  // delay(1000);
 }

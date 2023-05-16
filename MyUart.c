@@ -1,7 +1,10 @@
-#include "uart.h"
+#include "MyUart.h"
 
-uint32_t baudrate = 115200;
+uint8_t receivedData[128];
+uint8_t receivedString[128];
+int dataIndex = 0;
 int length = 0;
+uint32_t baudrate = 115200;
 
 void setUart() {
   int uart_buffer_size = (1024 * 2);
@@ -15,8 +18,9 @@ void setUart() {
   };
 
   ESP_ERROR_CHECK(uart_param_config(UART_NUM_0, &uart_config));
+  ESP_ERROR_CHECK(uart_set_pin(UART_NUM_0, 43, 44, -1, -1));
+  // ESP_ERROR_CHECK(uart_set_pin(UART_NUM_0, GPIO_NUM_37, GPIO_NUM_36, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
   ESP_ERROR_CHECK(uart_driver_install(UART_NUM_0, uart_buffer_size, uart_buffer_size, 10, &uart_queue, 0));
-  ESP_ERROR_CHECK(uart_set_pin(UART_NUM_0, GPIO_NUM_37, GPIO_NUM_36, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
 }
 
 void unSetUart() {
@@ -31,16 +35,25 @@ void sendUartNewLine() {
   uart_write_bytes(UART_NUM_0, "\r", 1);
 }
 
-char *receiveUartData() {
-  uint8_t receivedData[128];
+char *receiveUartCharData() {
   ESP_ERROR_CHECK(uart_get_buffered_data_len(UART_NUM_0, (size_t*)&length)); 
   if(length > 0) {
-    sendUartString("comeData");
     length = uart_read_bytes(UART_NUM_0, receivedData, length, 100);
-    // uart_flush(UART_NUM_0);
     return receivedData;
   } else {
     return NULL;
   }
   
+}
+
+char *receiveUartStringData() {
+  uint8_t returnString[128];
+  int index = 0;
+  char *tempChar = receiveUartCharData();
+  if(strcmp(tempChar, "\n") == 0) {
+    return returnString;
+  } else {
+    returnString[index] = *tempChar;
+    index++;
+  }
 }

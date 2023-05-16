@@ -10,6 +10,7 @@ void setUart();
 void unSetUart();
 void sendUartString(char *string);
 void sendUartNewLine();
-char *receiveUartData();
+char *receiveUartCharData();
+char *receiveUartStringData();
 
 #endif
