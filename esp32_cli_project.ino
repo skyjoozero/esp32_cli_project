@@ -11,12 +11,17 @@ int delayed = 1;
 void setup() {
   // put your setup code here, to run once:
   setUart();
+  setGPIO();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  sendUartString("esp32>>");
-  stringData = receiveUartStringData();
-  char **commands = returnCommandArray(stringData);
-  excuteCLI(commands);
+  // sendUartString("esp32>>");
+  // stringData = receiveUartStringData();
+  // char **commands = returnCommandArray(stringData);
+  // excuteCLI(commands);
+  turnOnDefaultLed();
+  delay(1000);
+  turnOffDefaultLed();
+  delay(1000);
 }

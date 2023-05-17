@@ -15,7 +15,9 @@ char** returnCommandArray(char *commandString) {
     commandIndex++;
   }
   returnArray[commandIndex] = NULL;
-  return returnArray;
+  char** tmp = returnArray;
+  free(returnArray);
+  return tmp;
 }
 
 void excuteCLI(char **commandArray) {

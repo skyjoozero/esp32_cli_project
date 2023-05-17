@@ -12,6 +12,7 @@ extern "C" {
 
 #include "MyUart.h"
 #include "MyCLI.h"
+#include "MyGPIO.h"
 // #include "MyTimer.h"
 
 
