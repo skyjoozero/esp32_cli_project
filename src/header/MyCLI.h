@@ -10,5 +10,11 @@ void excuteCLI(char **commandArray);
 
 void echoCommand(char **commandArray);
 
+void LedCommand(char **commandArray);
+
+void turnOnDefaultLed();
+
+void turnOffDefaultLed();
+
 
 #endif

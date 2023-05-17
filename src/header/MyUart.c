@@ -19,7 +19,6 @@ void setUart() {
 
   ESP_ERROR_CHECK(uart_param_config(UART_NUM_0, &uart_config));
   ESP_ERROR_CHECK(uart_set_pin(UART_NUM_0, 43, 44, -1, -1));
-  // ESP_ERROR_CHECK(uart_set_pin(UART_NUM_0, GPIO_NUM_37, GPIO_NUM_36, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
   ESP_ERROR_CHECK(uart_driver_install(UART_NUM_0, uart_buffer_size, uart_buffer_size, 10, &uart_queue, 0));
 }
 
@@ -33,6 +32,11 @@ void sendUartString(char *string) {
 
 void sendUartNewLine() {
   uart_write_bytes(UART_NUM_0, "\r\n", 1);
+}
+
+void sendUartStringNewLine(char *string) {
+  uart_write_bytes(UART_NUM_0, (const char*)string, strlen(string));
+  sendUartNewLine();
 }
 
 char *receiveUartCharData() {
@@ -52,7 +56,7 @@ char *receiveUartStringData() {
   
   while(true) {
     char *tempChar = receiveUartCharData();
-    if(tempChar != NULL) {
+    if (tempChar != NULL) {
       if(strcmp(tempChar, "\r\n") == 0) {
         break;
       } else {

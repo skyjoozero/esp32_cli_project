@@ -10,6 +10,7 @@ void setUart();
 void unSetUart();
 void sendUartString(char *string);
 void sendUartNewLine();
+void sendUartStringNewLine(char *string);
 char *receiveUartCharData();
 char *receiveUartStringData(); //return strig before input enter
 
