@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "mycli.h": "c",
+        "string.h": "c",
+        "malloc.h": "c"
+    },
+    "idf.adapterTargetName": "esp32s3"
+}
