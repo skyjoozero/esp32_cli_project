@@ -2,6 +2,8 @@
 
 #define LED_BUILTIN 97
 
+char *stringData;
+
 char** returnCommandArray(char *commandString) {
     char **returnArray = malloc(10 * sizeof(char*));
     for(int i = 0; i < 10; i++) {
@@ -24,6 +26,8 @@ void excuteCLI(char **commandArray) {
         echoCommand(commandArray);
     } else if(strcmp(commandArray[0], "led") == 0) {
         ledCommand(commandArray);
+    } else if(strcmp(commandArray[0], "gpio") == 0) {
+        gpioMode();
     }
 }
 
@@ -45,6 +49,17 @@ void ledCommand(char **commandArray) {
     }
 }
 
+void gpioMode() {
+    while (1) {
+        sendUartString("(gpio)");
+        stringData = receiveUartStringData();
+        char **commands = returnCommandArray(stringData);
+        excuteCLI(commands);
+        free(commands);
+    }
+    
+}
+
 void turnOnDefaultLed() {
     // neopixelWrite(LED_BUILTIN, 0xFF, 0xFF, 0xFF);
     // sendUartStringNewLine("led on!");
@@ -53,4 +68,14 @@ void turnOnDefaultLed() {
 void turnOffDefaultLed() {
     // neopixelWrite(LED_BUILTIN, 0x00, 0x00, 0x00);
     // sendUartStringNewLine("led off!");
+}
+
+void mainCLI(char *header) {
+    while(1) {
+        sendUartString(header);
+        stringData = receiveUartStringData();
+        char **commands = returnCommandArray(stringData);
+        excuteCLI(commands);
+        free(commands);
+    }
 }

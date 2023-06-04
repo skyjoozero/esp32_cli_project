@@ -3,7 +3,7 @@
 
 #include <string.h>
 #include <malloc.h>
-#include "MyUart.h" // 지우기 
+#include "MyUart.h"
 
 char **returnCommandArray(char *commandString);
 
@@ -13,9 +13,12 @@ void echoCommand(char **commandArray);
 
 void ledCommand(char **commandArray);
 
+void gpioMode();
+
 void turnOnDefaultLed();
 
 void turnOffDefaultLed();
 
+void mainCLI(char *header);
 
 #endif
