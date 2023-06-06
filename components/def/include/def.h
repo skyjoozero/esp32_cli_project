@@ -6,6 +6,7 @@
 #include <string.h>
 #include "MyUart.h"
 #include "MyCLI.h"
+#include "MyGPIO.h"
 
 
 

@@ -5,21 +5,15 @@
 #include <malloc.h>
 #include "MyUart.h"
 
-char **returnCommandArray(char *commandString);
-
 void setArgcArgv(int *argc, char **argv, char *commandString);
 
-void excuteCLI(char **commandArray);
+void excuteCLI(int argc, char **argv);
 
-void echoCommand(char **commandArray);
+void echoCommand(int argc, char **argv);
 
-void ledCommand(char **commandArray);
+int excuteGPIO(int argc, char **argv);
 
 void gpioMode();
-
-void turnOnDefaultLed();
-
-void turnOffDefaultLed();
 
 void mainCLI(char *header);
 
