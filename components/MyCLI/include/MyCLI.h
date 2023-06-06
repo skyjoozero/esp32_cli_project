@@ -7,6 +7,8 @@
 
 char **returnCommandArray(char *commandString);
 
+void setArgcArgv(int *argc, char **argv, char *commandString);
+
 void excuteCLI(char **commandArray);
 
 void echoCommand(char **commandArray);

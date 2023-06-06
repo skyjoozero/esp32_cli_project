@@ -1,8 +1,24 @@
 #include "MyCLI.h"
 
 #define LED_BUILTIN 97
+#define MAX_ARGC_VALUE 10
 
 char *stringData;
+
+void setArgcArgv(int *argc, char **argv, char *commandString) {
+    int commandIndex = 0;
+    *argc = 0;
+    char *p = strtok(commandString, " ");
+    while(p != NULL) {
+        if(*argc > MAX_ARGC_VALUE)
+            break;
+        argv[commandIndex] = p;
+        *argc += 1;
+        p = strtok(NULL, " ");
+        commandIndex++;
+    }
+    argv[commandIndex] = NULL;
+}
 
 char** returnCommandArray(char *commandString) {
     char **returnArray = malloc(10 * sizeof(char*));
@@ -71,11 +87,17 @@ void turnOffDefaultLed() {
 }
 
 void mainCLI(char *header) {
+    int argc = 0;
+    char *argv[10];
     while(1) {
         sendUartString(header);
         stringData = receiveUartStringData();
-        char **commands = returnCommandArray(stringData);
-        excuteCLI(commands);
-        free(commands);
+        setArgcArgv(&argc, argv, stringData);
+        for(int i = 0; i < argc; i++) {
+            sendUartStringNewLine(argv[i]);
+        }
+        // char **commands = returnCommandArray(stringData);
+        // excuteCLI(commands);
+        // free(commands);
     }
 }
