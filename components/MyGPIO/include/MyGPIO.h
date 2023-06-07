@@ -3,8 +3,6 @@
 
 #include "driver/gpio.h"
 
-gpio_config_t gpioConfig;
-
 void setGPIOInputPin(int pinNumber);
 
 // level 0-low 1-high

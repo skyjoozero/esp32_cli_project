@@ -34,11 +34,50 @@ void echoCommand(int argc, char **argv) {
     sendUartNewLine();
 }
 
+void gpioOutputPinHigh(int argc, char **argv){
+    char buffer[128];
+    for(int i = 0; i < argc; i++) {
+        int pinNumber = atoi(argv[i]);
+        setGPIOOutputPin(pinNumber);
+        gpioWritePin(pinNumber, 1);
+        sprintf(buffer, "GPIO %d pin is High", pinNumber);
+        sendUartString(buffer);
+    }
+    sendUartNewLine();
+}
+
+void gpioOutputPinLow(int argc, char **argv){
+    char buffer[128];
+    for(int i = 0; i < argc; i++) {
+        int pinNumber = atoi(argv[i]);
+        setGPIOOutputPin(pinNumber);
+        gpioWritePin(pinNumber, 0);
+        sprintf(buffer, "GPIO %d pin is Low", pinNumber);
+        sendUartString(buffer);
+    }
+    sendUartNewLine();
+}
+
+void gpioPinReadDigital(int argc, char **argv) {
+    char buffer[128];
+    for(int i = 0; i < argc; i++) {
+        int pinNumber = atoi(argv[i]);
+        setGPIOInputPin(pinNumber);
+        sprintf(buffer, "GPIO %d pin is %d", pinNumber, gpioReadPin(pinNumber));
+        sendUartString(buffer);
+    }
+    sendUartNewLine();
+}
+
 int excuteGPIO(int argc, char **argv) {
     if(strcmp(argv[0], "exit") == 0) 
         return -1;
-    // else if(strcmp(argv[0], "gpio") == 0) 
-    //     gpioMode();
+    else if(strcmp(argv[0], "on") == 0) 
+        gpioOutputPinHigh(argc - 1, &argv[1]);
+    else if(strcmp(argv[0], "off") == 0) 
+        gpioOutputPinLow(argc - 1, &argv[1]);
+    else if(strcmp(argv[0], "read") == 0) 
+        gpioOutputPinLow(argc - 1, &argv[1]);
     return 1;
 }
 
