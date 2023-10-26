@@ -139,17 +139,10 @@ void gpsMode() {
     setGPIOInputPin(7);
     while(1) {
         
+        stringData = getGPSData();
+        if(strcmp(stringData, ""))
+            sendUartStringNewLine(UART_NUM_0, stringData);
         
-        // if(gpioReadPin(7) == 1) {
-        //     sendUartString(UART_NUM_0, "(gps)");
-        //     sendUartNewLine(UART_NUM_0);
-        //     stringData = getGPSData();
-        //     sendUartStringNewLine(UART_NUM_0, stringData);
-        // }
-
-        sprintf(buffer, "GPIO %d pin is %d", 7, gpioReadPin(7));
-        sendUartString(UART_NUM_0, buffer);
-        sendUartNewLine(UART_NUM_0);
     }
 }
 

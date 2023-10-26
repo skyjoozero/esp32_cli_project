@@ -196,10 +196,16 @@ uint8_t getChecksum(char *string) {
 
 
 void initGPSCommunication() {
-    setUart(UART_NUM_1, 9600, UART_DATA_8_BITS, UART_PARITY_DISABLE, UART_STOP_BITS_1, UART_HW_FLOWCTRL_DISABLE, UART_SCLK_DEFAULT, 17, 18, -1, -1);
+    setUart(UART_NUM_1, 9600, UART_DATA_8_BITS, UART_PARITY_DISABLE, UART_STOP_BITS_1, UART_HW_FLOWCTRL_DISABLE, UART_SCLK_DEFAULT, 4, 5, -1, -1);
 }
 
 char *getGPSData() {
-    char *string = receiveUartCharData(UART_NUM_1);
+    char *string = "";
+    size_t dataLen = 0;
+    uart_get_buffered_data_len(UART_NUM_1, &dataLen);
+    if(dataLen) {
+        string = receiveUartCharData(UART_NUM_1);
+        return string;
+    }
     return string;
 }

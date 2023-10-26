@@ -12,7 +12,7 @@ QueueHandle_t uart_queue1;
 
 void setUart(uint16_t uartNum, uint32_t baudrate, uint32_t databits, uint32_t parity, uint32_t stopBit, uint32_t flowControl, uint32_t sourceClk, \
                 int txPin, int rxPin, int rtsPin, int ctsPin) {
-    int uart_buffer_size = (1024 * 2);
+    int uart_buffer_size = (4096 * 2);
     
     uart_config_t uart_config = {
         .baud_rate = baudrate,
