@@ -5,46 +5,65 @@ int length = 0;
 char returnString[128];
 int stringIndex = 0;
 uint32_t baudrate = 115200;
+QueueHandle_t uart_queue;
+QueueHandle_t uart_queue1;
 
-void setUart() {
+
+
+void setUart(uint16_t uartNum, uint32_t baudrate, uint32_t databits, uint32_t parity, uint32_t stopBit, uint32_t flowControl, uint32_t sourceClk, \
+                int txPin, int rxPin, int rtsPin, int ctsPin) {
     int uart_buffer_size = (1024 * 2);
-    QueueHandle_t uart_queue;
+    
     uart_config_t uart_config = {
-        .baud_rate = 115200,
-        .data_bits = UART_DATA_8_BITS,
-        .parity = UART_PARITY_DISABLE,
-        .stop_bits = UART_STOP_BITS_1,
-        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
-        .source_clk = UART_SCLK_DEFAULT,
+        .baud_rate = baudrate,
+        .data_bits = databits,
+        .parity = parity,
+        .stop_bits = stopBit,
+        .flow_ctrl = flowControl,
+        .source_clk = sourceClk,
     };
 
-    ESP_ERROR_CHECK(uart_param_config(UART_NUM_0, &uart_config));
-    ESP_ERROR_CHECK(uart_set_pin(UART_NUM_0, 43, 44, -1, -1));
-    ESP_ERROR_CHECK(uart_driver_install(UART_NUM_0, uart_buffer_size, uart_buffer_size, 10, &uart_queue, 0));
+    ESP_ERROR_CHECK(uart_param_config(uartNum, &uart_config));
+    ESP_ERROR_CHECK(uart_set_pin(uartNum, txPin, rxPin, rtsPin, ctsPin));
+    if (uartNum == UART_NUM_0) 
+        ESP_ERROR_CHECK(uart_driver_install(uartNum, uart_buffer_size, uart_buffer_size, 10, &uart_queue, 0));
+    else
+        ESP_ERROR_CHECK(uart_driver_install(uartNum, uart_buffer_size, uart_buffer_size, 10, &uart_queue1, 0));
+    
 }
 
-void unSetUart() {
-    uart_driver_delete(UART_NUM_0);
+void unSetUart(uint16_t uartNum) {
+    uart_driver_delete(uartNum);
 }
 
-void sendUartString(char *string) {
-    uart_write_bytes(UART_NUM_0, (const char*)string, strlen(string));
+void sendUartString(uint16_t uartNum, char *string) {
+    uart_write_bytes(uartNum, (const char*)string, strlen(string));
 }
 
-void sendUartNewLine() {
-    uart_write_bytes(UART_NUM_0, "\r\n", 1);
+void sendUartStrings(uint16_t uartNum, int count, ...) {
+    va_list list;
+   
+    va_start(list, count);
+    for(int i = 0; i < count; i++) {
+        sendUartString(uartNum, va_arg(list, char*));
+    }
+    
 }
 
-void sendUartStringNewLine(char *string) {
-    uart_write_bytes(UART_NUM_0, (const char*)string, strlen(string));
-    sendUartNewLine();
+void sendUartNewLine(uint16_t uartNum) {
+    uart_write_bytes(uartNum, "\r\n", 1);
 }
 
-char *receiveUartCharData() {
+void sendUartStringNewLine(uint16_t uartNum, char *string) {
+    uart_write_bytes(uartNum, (const char*)string, strlen(string));
+    sendUartNewLine(uartNum);
+}
+
+char *receiveUartCharData(uint16_t uartNum) {
   
-    ESP_ERROR_CHECK(uart_get_buffered_data_len(UART_NUM_0, (size_t*)&length)); 
+    ESP_ERROR_CHECK(uart_get_buffered_data_len(uartNum, (size_t*)&length)); 
     if(length > 0) {
-    length = uart_read_bytes(UART_NUM_0, receivedData, length, 100);
+    length = uart_read_bytes(uartNum, receivedData, length, 100);
     receivedData[length] = '\0';
     return receivedData;
     } else {
@@ -53,11 +72,11 @@ char *receiveUartCharData() {
   
 }
 
-char *receiveUartStringData() {
+char *receiveUartStringData(uint16_t uartNum) {
     stringIndex = 0;
 
     while(true) {
-        char *tempChar = receiveUartCharData();
+        char *tempChar = receiveUartCharData(uartNum);
         if (tempChar != NULL) {
             if(strcmp(tempChar, "\r\n") == 0) {
                 break;

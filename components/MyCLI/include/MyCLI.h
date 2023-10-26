@@ -7,6 +7,7 @@
 #include "MyUart.h"
 #include "MyGPIO.h"
 #include "MyWIFI.h"
+#include "MyGPSModule.h"
 
 void setArgcArgv(int *argc, char **argv, char *commandString);
 
@@ -27,6 +28,8 @@ int excuteWIFI(int argc, char **argv);
 void gpioMode();
 
 void wifiMode();
+
+void gpsMode();
 
 void mainCLI(char *header);
 

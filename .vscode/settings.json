@@ -3,7 +3,9 @@
         "mycli.h": "c",
         "string.h": "c",
         "malloc.h": "c",
-        "mywifi.h": "c"
+        "mywifi.h": "c",
+        "stdio.h": "c",
+        "stdarg.h": "c"
     },
     "idf.adapterTargetName": "esp32s3"
 }
