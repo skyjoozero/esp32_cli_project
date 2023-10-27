@@ -20,7 +20,7 @@ char *ereaseAuxiliaryInform() {
     char *command = "040";
     char *commandString = appendStrings(header, command, "*", "checksum", footer);
 
-    printf("%s", commandString);
+    // printf("%s", commandString);
     free(commandString);
 
     return "";

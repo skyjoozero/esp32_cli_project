@@ -133,16 +133,19 @@ void wifiMode() {
 
 void gpsMode() {
     int argc = 0;
+    int enablePin = 7;
     char *argv[10];
     char *stringData;
     initGPSCommunication();
+    ereaseAuxiliaryInform();
     setGPIOInputPin(7);
     while(1) {
         
+        gpioWritePin(enablePin, 1);
         stringData = getGPSData();
         if(strcmp(stringData, ""))
             sendUartStringNewLine(UART_NUM_0, stringData);
-        
+        gpioWritePin(enablePin, 0);
     }
 }
 
