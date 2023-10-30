@@ -162,7 +162,9 @@ uint8_t getChecksum(char *string);
 
 void initGPSCommunication();
 char *getGPSData();
-
+char *checkGPSData(char *string);
+char *deleteTrashGPSData(char *string);
+void changeCharPointerToCharArray(char *string1, char sting2[]);
 
 
 

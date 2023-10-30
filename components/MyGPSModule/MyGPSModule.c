@@ -209,3 +209,46 @@ char *getGPSData() {
     }
     return string;
 }
+
+char *deleteTrashGPSData(char *string) {
+    char *GNGGAHeader = "GNGGA";
+    char *returnString = "";
+    char *mainString = "";
+
+    char tempString[500];
+    // printf("!");
+    changeCharPointerToCharArray(string, tempString);
+
+    char *p = strtok(tempString, "$");
+
+    while(p != NULL) {
+        // printf("%s\n", p);
+        if (strncmp(p, GNGGAHeader, strlen(GNGGAHeader)) == 0) {
+            // printf("%s\n", p);
+            // mainString = appendStrings(mainString, p);
+            // printf("%s\n", p);
+            // free(mainString);
+
+            sendUartString(UART_NUM_0, p);
+        }
+
+        p = strtok(NULL, "$");
+    }
+
+    return "";
+
+}
+
+void changeCharPointerToCharArray(char *string1, char sting2[]) {
+    int i = 0;
+//    char returnString[100];
+
+    while (string1[i] != '\0') {
+        sting2[i] = string1[i];
+        i++;
+    }
+
+    sting2[i] = '\0';
+
+//    return returnString;
+}

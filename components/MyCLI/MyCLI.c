@@ -142,10 +142,12 @@ void gpsMode() {
     while(1) {
         
         gpioWritePin(enablePin, 1);
-        stringData = getGPSData();
-        if(strcmp(stringData, ""))
-            sendUartStringNewLine(UART_NUM_0, stringData);
+        stringData = deleteTrashGPSData(getGPSData());
+        // if(strcmp(stringData, ""))
+        //     sendUartStringNewLine(UART_NUM_0, stringData);
         gpioWritePin(enablePin, 0);
+
+        // free(stringData);
     }
 }
 
