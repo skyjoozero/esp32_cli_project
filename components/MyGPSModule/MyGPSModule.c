@@ -229,7 +229,8 @@ char *deleteTrashGPSData(char *string) {
             // printf("%s\n", p);
             // free(mainString);
 
-            sendUartString(UART_NUM_0, p);
+            // sendUartString(UART_NUM_0, p);
+            return p;
         }
 
         p = strtok(NULL, "$");
