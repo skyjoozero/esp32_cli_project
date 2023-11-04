@@ -10,7 +10,7 @@ char *systemReboot(char *arg1, char *arg2) {
     char *command = "030";
     char *commandString = appendStrings(header, command, ",", arg1, ",", arg2, "*", "checksum", footer);
 
-    printf(commandString);
+    //sendUartString(UART_NUM_1, commandString);
     free(commandString);
 
     return "";
@@ -197,6 +197,7 @@ uint8_t getChecksum(char *string) {
 
 void initGPSCommunication() {
     setUart(UART_NUM_1, 9600, UART_DATA_8_BITS, UART_PARITY_DISABLE, UART_STOP_BITS_1, UART_HW_FLOWCTRL_DISABLE, UART_SCLK_DEFAULT, 4, 5, -1, -1);
+    // char *a = systemReboot("4", "2");
 }
 
 char *getGPSData() {
@@ -214,6 +215,7 @@ char *deleteTrashGPSData(char *string) {
     char *GNGGAHeader = "GNGGA";
     char *returnString = "";
     char *mainString = "";
+    GNGGAData_t gnggaData;    
 
     char tempString[500];
     // printf("!");
@@ -230,6 +232,17 @@ char *deleteTrashGPSData(char *string) {
             // free(mainString);
 
             // sendUartString(UART_NUM_0, p);
+            getGNGGAData(&gnggaData, p);
+
+            sendUartString(UART_NUM_0, "UTC time: ");
+            sendUartStringNewLine(UART_NUM_0, gnggaData.UTCDate);
+
+            sendUartString(UART_NUM_0, "latitude: ");
+            sendUartStringNewLine(UART_NUM_0, gnggaData.latitude);
+
+            sendUartString(UART_NUM_0, "longtitude: ");
+            sendUartStringNewLine(UART_NUM_0, gnggaData.longtitude);
+
             return p;
         }
 
@@ -252,4 +265,50 @@ void changeCharPointerToCharArray(char *string1, char sting2[]) {
     sting2[i] = '\0';
 
 //    return returnString;
+}
+
+void getGNGGAData(GNGGAData *structData, char *stringData) {
+    char *p = strtok(stringData, ",");
+    p = strtok(NULL, ",");
+
+    //memcpy(structData->UTCDate, p, sizeof(p));
+
+    structData->UTCDate = p;
+    p = strtok(NULL, ",");
+
+    structData->latitude = p;
+    p = strtok(NULL, ",");
+
+    structData->NSIndication = p;
+    p = strtok(NULL, ",");
+
+    structData->longtitude = p;
+    p = strtok(NULL, ",");
+
+    structData->EWIndication = p;
+    p = strtok(NULL, ",");
+
+    structData->positioningInstructions = p;
+    p = strtok(NULL, ",");
+
+    structData->numberOfSatellites = p;
+    p = strtok(NULL, ",");
+
+    structData->HDOP = p;
+    p = strtok(NULL, ",");
+
+    structData->MSLAmplitude = p;
+    p = strtok(NULL, ",");
+
+    structData->unit = p;
+    p = strtok(NULL, ",");
+
+    structData->theEarth = p;
+    p = strtok(NULL, ",");
+
+    structData->differentialTime = p;
+    p = strtok(NULL, ",");
+
+    structData->differentialID = p;
+    p = strtok(NULL, ",");
 }

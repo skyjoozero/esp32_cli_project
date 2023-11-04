@@ -10,6 +10,23 @@
 
 #include <stdio.h> //todo: remove later
 
+typedef struct {
+    char *UTCDate;
+    char *latitude;
+    char *NSIndication;
+    char *longtitude;
+    char *EWIndication;
+    char *positioningInstructions;
+    char *numberOfSatellites;
+    char *HDOP;
+    char *MSLAmplitude;
+    char *unit;
+    char *theEarth;
+    char *differentialTime;
+    char *differentialID;
+} GNGGAData_t;
+
+
 
 char *responseMsg(char *commandOfMsg, char *arg);   //todo: not write
 //        arg
@@ -165,6 +182,7 @@ char *getGPSData();
 char *checkGPSData(char *string);
 char *deleteTrashGPSData(char *string);
 void changeCharPointerToCharArray(char *string1, char sting2[]);
+void getGNGGAData(GNGGAData *structData, char *stringData);
 
 
 
