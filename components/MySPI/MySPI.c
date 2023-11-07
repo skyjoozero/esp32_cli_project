@@ -21,6 +21,14 @@ void initSPIBus(void) {
     spi_bus_initialize(hostID, &busConfig, dmaChan)
 }
 
+void initSPIDiviceConfig(void) {
+    initSPIDiviceConfig = {
+        .clock_speed_hz = 5 * 1000 * 1000,
+        .mode = 0,
+        
+    }
+}
+
 void deInitSPIBUS(void) {
     spi_bus_free(hostID);
 }
