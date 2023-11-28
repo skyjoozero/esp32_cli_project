@@ -2,8 +2,7 @@
 #define MY_SPI_HEADER
 
 
-#include <spi_types.h>
-#include <spi_common.h>
+#include <driver/spi_master.h>
 
 void initSPIBUS(void);
 void deInitSPIBUS(void);

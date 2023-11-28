@@ -267,7 +267,7 @@ void changeCharPointerToCharArray(char *string1, char sting2[]) {
 //    return returnString;
 }
 
-void getGNGGAData(GNGGAData *structData, char *stringData) {
+void getGNGGAData(GNGGAData_t *structData, char *stringData) {
     char *p = strtok(stringData, ",");
     p = strtok(NULL, ",");
 

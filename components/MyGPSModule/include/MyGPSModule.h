@@ -182,7 +182,7 @@ char *getGPSData();
 char *checkGPSData(char *string);
 char *deleteTrashGPSData(char *string);
 void changeCharPointerToCharArray(char *string1, char sting2[]);
-void getGNGGAData(GNGGAData *structData, char *stringData);
+void getGNGGAData(GNGGAData_t *structData, char *stringData);
 
 
 
